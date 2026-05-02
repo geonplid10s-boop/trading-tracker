@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     requestNotificationPermission();
     scheduleNotificationCheck();
+    
+    document.getElementById('btnDelete').onclick = deleteEntry;
 });
 
 // Datos
@@ -91,6 +93,7 @@ function openEntryModal(date) {
     const modal = document.getElementById('modalEntry');
     const modalDate = document.getElementById('modalDate');
     const amountSection = document.getElementById('amountSection');
+    const deleteBtn = document.getElementById('btnDelete');
     
     const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
     modalDate.textContent = `${dayNames[date.getDay()]}, ${date.getDate()} de ${getMonthName(date.getMonth())}`;
@@ -99,6 +102,15 @@ function openEntryModal(date) {
     document.getElementById('btnLoss').classList.remove('selected');
     amountSection.classList.add('hidden');
     document.getElementById('amountInput').value = '';
+    
+    // Mostrar botón eliminar si ya existe un registro
+    const data = getData();
+    const key = getDayKey(date);
+    if (data[key]) {
+        deleteBtn.classList.remove('hidden');
+    } else {
+        deleteBtn.classList.add('hidden');
+    }
     
     modal.classList.add('active');
 }
@@ -132,6 +144,18 @@ document.getElementById('btnSave').onclick = () => {
     document.getElementById('modalEntry').classList.remove('active');
     renderCalendar();
 };
+
+function deleteEntry() {
+    if (!confirm('¿Estás seguro de eliminar este registro?')) return;
+    
+    const data = getData();
+    const key = getDayKey(selectedDate);
+    delete data[key];
+    saveData(data);
+    
+    document.getElementById('modalEntry').classList.remove('active');
+    renderCalendar();
+}
 
 document.getElementById('btnCloseModal').onclick = () => {
     document.getElementById('modalEntry').classList.remove('active');
