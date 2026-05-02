@@ -2,7 +2,7 @@
   "name": "Trading Tracker",
   "short_name": "Trading",
   "description": "App para llevar el registro de ingresos de trading",
-  "start_url": "/index.html",
+  "start_url": "/trading-tracker/",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#16213e",
