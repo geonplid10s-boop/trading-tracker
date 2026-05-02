@@ -226,11 +226,12 @@ function scheduleNotificationCheck() {
 }
 
 function showNotification() {
+    const basePath = window.location.pathname.includes('/trading-tracker/') ? '/trading-tracker' : '';
     if (Notification.permission === 'granted') {
         new Notification('Trading Tracker', {
             body: 'Debes registrar los datos del día de hoy',
-            icon: 'icons/icon-192.png',
-            badge: 'icons/icon-192.png'
+            icon: basePath + '/icons/icon-192.png',
+            badge: basePath + '/icons/icon-192.png'
         });
     }
     
@@ -242,7 +243,7 @@ function showNotification() {
 
 // Service Worker para PWA
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+    navigator.serviceWorker.register('/trading-tracker/sw.js').catch(err => console.log('SW error:', err));
 }
 
 // Utilidades
